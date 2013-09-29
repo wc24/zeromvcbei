@@ -13,8 +13,8 @@ package com.zeromvc {
 		 * 指令类型
 		 */
 		public var name:String;
-		public function Command(name:String = "") {
-			this.name = name
+		public function Command(name:String = null) {
+			this.name = name || this["constructor"] || new Date().time+"Command";
 		}
 		/**
 		 * 执行

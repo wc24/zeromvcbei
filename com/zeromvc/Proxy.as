@@ -12,11 +12,7 @@ package com.zeromvc {
 		 * @param	proxyName 数据代理实例的唯一标识;
 		 */
 		public function Proxy(proxyName:String = null) {
-			if (_proxyName==null) {
-				_proxyName = this["constructor"];
-			}else {
-				_proxyName = proxyName;
-			}
+			_proxyName = proxyName || this["constructor"] || new Date().time+"Command";
 			eventDispatcher = new ZeroEventDispatcher(this);
 		}
 		
