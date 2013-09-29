@@ -51,7 +51,6 @@ package com.zeromvc {
 			if (commandClass as Command) {
 				throw NO_COMMAND;
 			}
-			trace(String(commandClass), delTrailNameCommand(String(commandClass)))
 			var commandName:String = commandClass["NAME"] || delTrailNameCommand(String(commandClass)) || String(commandClass);
 			if (commandName == null) {
 				throw NO_NAME;
