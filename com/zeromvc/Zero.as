@@ -51,14 +51,20 @@ package com.zeromvc {
 			if (commandClass as Command) {
 				throw NO_COMMAND;
 			}
-			if (commandClass["NAME"] == null) {
+			trace(String(commandClass), delTrailNameCommand(String(commandClass)))
+			var commandName:String = commandClass["NAME"] || delTrailNameCommand(String(commandClass)) || String(commandClass);
+			if (commandName == null) {
 				throw NO_NAME;
-			} else if (commandClassList[commandClass["NAME"]] != null) {
+			} else if (commandClassList[commandName] != null) {
 				throw UNNECESSARY_COMMAND + " :" + commandClass;
 			} else {
-				commandClassList[commandClass["NAME"]] = commandClass;
-				eventDispatcher.addEventListener(commandClass["NAME"], commandCentre);
+				commandClassList[commandName] = commandClass;
+				eventDispatcher.addEventListener(commandName, commandCentre);
 			}
+		}
+		
+		private function delTrailNameCommand(className:String):String {
+			return className.slice(7, className.search("Command"))
 		}
 		
 		/**
@@ -145,7 +151,7 @@ package com.zeromvc {
 		 * @return	返回新代理
 		 */
 		public function foundProxy(proxyClass:Class):Proxy {
-			var proxy:Proxy = proxyList[proxyClass.NAME] as Proxy;
+			var proxy:Proxy = proxyList[proxyClass["NAME"]] as Proxy || proxyList[String(proxyClass)] as Proxy;
 			if (proxy == null) {
 				proxy = addProxy(new proxyClass());
 			}

@@ -11,8 +11,12 @@ package com.zeromvc {
 		 * 数据代理
 		 * @param	proxyName 数据代理实例的唯一标识;
 		 */
-		public function Proxy(proxyName:String) {
-			_proxyName = proxyName;
+		public function Proxy(proxyName:String = null) {
+			if (_proxyName==null) {
+				_proxyName = this["constructor"];
+			}else {
+				_proxyName = proxyName;
+			}
 			eventDispatcher = new ZeroEventDispatcher(this);
 		}
 		
