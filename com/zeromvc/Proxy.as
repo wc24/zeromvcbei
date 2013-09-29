@@ -1,8 +1,9 @@
 package com.zeromvc {
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
-	[Event(name="updata",type="com.zeromvc.ProxyEvent")]
-	
+	[Event(name = "add", type = "com.zeromvc.ProxyEvent")];
+	[Event(name = "remove", type = "com.zeromvc.ProxyEvent")];
+	[Event(name = "updata", type = "com.zeromvc.ProxyEvent")];
 	public class Proxy extends ZeroCore implements IEventDispatcher {
 		protected var _proxyName:String;
 		private var eventDispatcher:ZeroEventDispatcher;
@@ -12,7 +13,7 @@ package com.zeromvc {
 		 * @param	proxyName 数据代理实例的唯一标识;
 		 */
 		public function Proxy(proxyName:String = null) {
-			_proxyName = proxyName || this["constructor"] || new Date().time+"Command";
+			_proxyName = proxyName || this["constructor"] || new Date().time + "Command";
 			eventDispatcher = new ZeroEventDispatcher(this);
 		}
 		
