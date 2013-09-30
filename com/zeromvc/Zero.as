@@ -51,7 +51,7 @@ package com.zeromvc {
 			if (commandClass as Command) {
 				throw NO_COMMAND;
 			}
-			var commandName:String = commandClass["NAME"] || delTrailNameCommand(String(commandClass)) || String(commandClass);
+			var commandName:String = commandClass["NAME"] || delTrailNameCommand(String(commandClass))
 			if (commandName == null) {
 				throw NO_NAME;
 			} else if (commandClassList[commandName] != null) {
@@ -63,7 +63,7 @@ package com.zeromvc {
 		}
 		
 		private function delTrailNameCommand(className:String):String {
-			return className.slice(7, className.search("Command"))
+			return className.charAt(7).toLowerCase() + className.slice(8, className.search("Command"))
 		}
 		
 		/**
