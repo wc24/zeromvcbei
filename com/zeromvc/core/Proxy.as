@@ -1,9 +1,10 @@
-package com.zeromvc {
+package com.zeromvc.core {
+	import com.zeromvc.events.ProxyEvent;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
-	[Event(name = "add", type = "com.zeromvc.ProxyEvent")];
-	[Event(name = "remove", type = "com.zeromvc.ProxyEvent")];
-	[Event(name = "updata", type = "com.zeromvc.ProxyEvent")];
+	[Event(name = "add", type = "com.zeromvc.events.ProxyEvent")];
+	[Event(name = "remove", type = "com.zeromvc.events.ProxyEvent")];
+	[Event(name = "updata", type = "com.zeromvc.events.ProxyEvent")];
 	public class Proxy extends ZeroCore implements IEventDispatcher {
 		protected var _proxyName:String;
 		private var eventDispatcher:ZeroEventDispatcher;

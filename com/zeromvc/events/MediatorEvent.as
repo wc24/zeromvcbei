@@ -1,4 +1,4 @@
-package com.zeromvc {
+package com.zeromvc.events {
 	import flash.events.Event;
 	
 	public class MediatorEvent extends Event {

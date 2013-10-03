@@ -1,4 +1,7 @@
-package com.zeromvc {
+package com.zeromvc.core {
+	import com.zeromvc.events.MediatorEvent;
+	import com.zeromvc.events.ProxyEvent;
+	import com.zeromvc.events.ZeroEvent;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	
@@ -17,9 +20,9 @@ package com.zeromvc {
 		 */
 		static public var eventDispatcher:ZeroEventDispatcher = new ZeroEventDispatcher(self);
 		/**
-		 * 无指令，Command 必须继承 com.zero.mvc.Command
+		 * 无指令，Command 必须继承 com.zeromvc.Command
 		 */
-		static public var NO_COMMAND:String = "Command 必须继承 com.zero.mvc.Command";
+		static public var NO_COMMAND:String = "Command 必须继承 com.zeromvc.Command";
 		/**
 		 * Command 类 的静态属NAME必须设定，并且要设定为唯一字符串
 		 */

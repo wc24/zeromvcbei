@@ -1,4 +1,5 @@
-package com.zeromvc {
+package com.zeromvc.core {
+	import com.zeromvc.events.ZeroEvent;
 	import flash.events.Event;
 	
 	/**

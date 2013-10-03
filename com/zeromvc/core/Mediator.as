@@ -1,8 +1,9 @@
-package com.zeromvc {
+package com.zeromvc.core {
+	import com.zeromvc.events.ZeroEvent;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
-	[Event(name="add",type="com.zeromvc.MediatorEvent")]
-	[Event(name="remove",type="com.zeromvc.ProxyEvent")]
+	[Event(name="add",type="com.zeromvc.events.MediatorEvent")]
+	[Event(name="remove",type="com.zeromvc.events.ProxyEvent")]
 	
 	public class Mediator extends ZeroCore implements IEventDispatcher {
 		public var mediatorId:int;

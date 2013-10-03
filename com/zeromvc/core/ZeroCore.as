@@ -1,4 +1,4 @@
-package com.zeromvc {
+package com.zeromvc.core {
 	
 	public class ZeroCore {
 		public var zero:Zero = Zero.self;
