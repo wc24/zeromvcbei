@@ -1,9 +1,10 @@
 package com.zeromvc.core {
+	import com.zeromvc.events.ProxyEvent;
 	[Event(name="showPanel",type="com.zeromvc.events.ProxyEvent")]
 	[Event(name="hidePanel",type="com.zeromvc.events.ProxyEvent")]
 	public class PanelProxy extends Proxy {
 		protected var _using:Boolean;
-		public function PanelProxy(proxyName:String) {
+		public function PanelProxy(proxyName:String = null) {
 			super(proxyName);
 		}
 		public function get using():Boolean {
