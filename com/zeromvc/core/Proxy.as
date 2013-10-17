@@ -2,9 +2,10 @@ package com.zeromvc.core {
 	import com.zeromvc.events.ProxyEvent;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
-	[Event(name = "add", type = "com.zeromvc.events.ProxyEvent")];
-	[Event(name = "remove", type = "com.zeromvc.events.ProxyEvent")];
-	[Event(name = "updata", type = "com.zeromvc.events.ProxyEvent")];
+	[Event(name="add",type="com.zeromvc.events.ProxyEvent")];
+	[Event(name="remove",type="com.zeromvc.events.ProxyEvent")];
+	[Event(name="updata",type="com.zeromvc.events.ProxyEvent")];
+	
 	public class Proxy extends ZeroCore implements IEventDispatcher {
 		protected var _proxyName:String;
 		private var eventDispatcher:ZeroEventDispatcher;
@@ -21,8 +22,9 @@ package com.zeromvc.core {
 		/**
 		 * 数据更新,调用方法会触发数据更新事件
 		 */
-		public function updata():void {
-			dispatchEvent(new ProxyEvent(ProxyEvent.UPDATA));
+		public function updata(type:String = "updata"):void {
+			//dispatchEvent(new ProxyEvent(ProxyEvent.UPDATA));
+			dispatchEvent(new ProxyEvent(type));
 		}
 		
 		/**

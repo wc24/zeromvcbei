@@ -6,10 +6,10 @@ package com.zeromvc.core {
 	import flash.events.IEventDispatcher;
 	
 	public class Zero implements IEventDispatcher {
-		static private var _commandList:Object = {};
-		static private var _commandClassList:Object = {};
-		static private var _proxyList:Object = {};
-		static private var _mediatorList:Object = {};
+		static private var _commandPool:Object = {};
+		static private var _commandClassPool:Object = {};
+		static private var _proxyPool:Object = {};
+		static private var _mediatorPool:Object = {};
 		static private var _mediatorId:int;
 		/**
 		 * 公开自身
@@ -50,19 +50,20 @@ package com.zeromvc.core {
 		 * 如每一条指令有多个不同的处理逻辑,请使用 addEventListener;
 		 * @param	commandClass 添加的指令
 		 */
-		public function addCommand(commandClass:Class):void {
+		public function addCommand(commandClass:Class):String {
 			if (commandClass as Command) {
 				throw NO_COMMAND;
 			}
 			var commandName:String = commandClass["NAME"] || delTrailNameCommand(String(commandClass))
 			if (commandName == null) {
 				throw NO_NAME;
-			} else if (commandClassList[commandName] != null) {
+			} else if (commandClassPool[commandName] != null) {
 				throw UNNECESSARY_COMMAND + " :" + commandClass;
 			} else {
-				commandClassList[commandName] = commandClass;
+				commandClassPool[commandName] = commandClass;
 				eventDispatcher.addEventListener(commandName, commandCentre);
 			}
+			return commandName
 		}
 		
 		private function delTrailNameCommand(className:String):String {
@@ -74,12 +75,12 @@ package com.zeromvc.core {
 		 * @param	event 添加事件
 		 */
 		public function commandCentre(event:ZeroEvent):void {
-			var commandClass:Class = commandClassList[event.type];
-			if (commandList[event.type] == null) {
-				commandList[event.type] = new commandClass();
-				(commandList[event.type] as Command).name = event.type;
+			var commandClass:Class = commandClassPool[event.type];
+			if (commandPool[event.type] == null) {
+				commandPool[event.type] = new commandClass();
+				(commandPool[event.type] as Command).name = event.type;
 			}
-			var command:Command = commandList[event.type] as Command;
+			var command:Command = commandPool[event.type] as Command;
 			command.event = event;
 			command.execute();
 		}
@@ -89,7 +90,7 @@ package com.zeromvc.core {
 		 * @param	command 要释放不需要的指令
 		 */
 		public function disposeCommand(command:Command):void {
-			delete commandList[command.name];
+			delete commandPool[command.name];
 		}
 		
 		/**
@@ -98,8 +99,8 @@ package com.zeromvc.core {
 		 * @return
 		 */
 		public function addProxy(proxy:Proxy):Proxy {
-			if (proxyList[proxy.proxyName] == null) {
-				proxyList[proxy.proxyName] = proxy;
+			if (proxyPool[proxy.proxyName] == null) {
+				proxyPool[proxy.proxyName] = proxy;
 				proxy.dispatchEvent(new ProxyEvent(ProxyEvent.ADD));
 			}
 			return proxy
@@ -110,9 +111,9 @@ package com.zeromvc.core {
 		 * @param	proxyName 移除代理名称，输入字符，直接移除代理
 		 */
 		public function removeProxy(proxyName:String):void {
-			var proxy:Proxy = proxyList[proxy.proxyName] as Proxy
+			var proxy:Proxy = proxyPool[proxy.proxyName] as Proxy
 			proxy.dispatchEvent(new ProxyEvent(ProxyEvent.REMOVE));
-			delete proxyList[proxy.proxyName]
+			delete proxyPool[proxy.proxyName]
 		}
 		
 		/**
@@ -121,7 +122,7 @@ package com.zeromvc.core {
 		 */
 		public function addMediator(mediator:Mediator):void {
 			mediator.mediatorId = mediatorId
-			mediatorList[mediator.mediatorId] = mediator;
+			mediatorPool[mediator.mediatorId] = mediator;
 			mediator.dispatchEvent(new MediatorEvent(MediatorEvent.ADD));
 		}
 		
@@ -131,7 +132,7 @@ package com.zeromvc.core {
 		 */
 		public function removeMediator(mediator:Mediator):void {
 			mediator.dispatchEvent(new MediatorEvent(MediatorEvent.REMOVE));
-			delete mediatorList[mediator.mediatorId]
+			delete mediatorPool[mediator.mediatorId]
 		}
 		
 		/**
@@ -140,7 +141,7 @@ package com.zeromvc.core {
 		 * @return
 		 */
 		public function getProxy(proxyName:String):Proxy {
-			var proxy:Proxy = proxyList[proxyName] as Proxy;
+			var proxy:Proxy = proxyPool[proxyName] as Proxy;
 			if (proxy == null) {
 				throw(NO_PROXY + proxyName)
 			}
@@ -153,7 +154,7 @@ package com.zeromvc.core {
 		 * @return	返回新代理
 		 */
 		public function foundProxy(proxyClass:Class):Proxy {
-			var proxy:Proxy = proxyList[proxyClass["NAME"]] as Proxy || proxyList[String(proxyClass)] as Proxy;
+			var proxy:Proxy = proxyPool[proxyClass["NAME"]] as Proxy || proxyPool[String(proxyClass)] as Proxy;
 			if (proxy == null) {
 				proxy = addProxy(new proxyClass());
 			}
@@ -219,29 +220,29 @@ package com.zeromvc.core {
 		/**
 		 * 视图管理器列表，返回obj值
 		 */
-		public function get mediatorList():Object {
-			return _mediatorList;
+		public function get mediatorPool():Object {
+			return _mediatorPool;
 		}
 		
 		/**
 		 * 视图代理列表，返回obj值
 		 */
-		public function get proxyList():Object {
-			return _proxyList;
+		public function get proxyPool():Object {
+			return _proxyPool;
 		}
 		
 		/**
 		 * 指令列表，返回obj值
 		 */
-		public function get commandList():Object {
-			return _commandList;
+		public function get commandPool():Object {
+			return _commandPool;
 		}
 		
 		/**
 		 * 指令类列表，返回obj值
 		 */
-		public function get commandClassList():Object {
-			return _commandClassList;
+		public function get commandClassPool():Object {
+			return _commandClassPool;
 		}
 	}
 }
